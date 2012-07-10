@@ -117,6 +117,7 @@ public class ConfluenceServer extends Persistable {
         xmlRpcSettings.setLogin(this.getLogin());
         xmlRpcSettings.setPassword(this.getPassword());
         xmlRpcSettings.setUrl(this.getUrl());
+        xmlRpcSettings.setTrustallcerts("true");
 //        xmlRpcSettings.setLogin(this.getLogin());
         return xmlRpcSettings;
     }
