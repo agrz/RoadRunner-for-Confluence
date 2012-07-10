@@ -5,3 +5,4 @@ private-doc-gitignored
 devel/rrdata
 localPageVersionStamps.properties
 build_reference.xml
+dist/roadrunner
