@@ -1,28 +1,33 @@
 package biz.artemis.roadrunner.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
-import java.util.List;
-import java.io.IOException;
+import biz.artemis.confluence.xmlrpcwrapper.ConfluenceServerSettings;
+import biz.artemis.confluence.xmlrpcwrapper.PageForXmlRpc;
+import biz.artemis.confluence.xmlrpcwrapper.RemoteWikiBroker;
+import biz.artemis.confluence.xmlrpcwrapper.SpaceSummaryForXmlRpc;
+import biz.artemis.roadrunner.engine.ConfluenceSynchronizer;
+import biz.artemis.roadrunner.model3.*;
+import biz.artemis.util.Util;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
+import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
+import org.apache.xmlrpc.XmlRpcException;
+
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-import javax.swing.border.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.table.*;
-
-import com.jgoodies.forms.layout.*;
-import biz.artemis.roadrunner.model3.*;
-import biz.artemis.roadrunner.engine.ConfluenceSynchronizer;
-import biz.artemis.confluence.xmlrpcwrapper.*;
-import biz.artemis.util.Util;
-import org.apache.xmlrpc.XmlRpcException;
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.*;
+import java.util.List;
 /*
  * Created by JFormDesigner on Tue Nov 11 17:47:48 PST 2008
  *
@@ -876,7 +881,7 @@ public class RoadRunnerGUI {
 
         //======== MainFrame ========
         {
-            MainFrame.setTitle("RoadRunner For Confluence v0.5.0");
+            MainFrame.setTitle("RoadRunner For Confluence v0.5.1");
             MainFrame.setIconImage(new ImageIcon("/Users/brendan/Desktop/projects/roadrunner/devel/FreeMindWindowIcon.png").getImage());
             Container MainFrameContentPane = MainFrame.getContentPane();
             MainFrameContentPane.setLayout(new BorderLayout());
