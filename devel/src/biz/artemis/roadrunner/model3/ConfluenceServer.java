@@ -1,14 +1,11 @@
 package biz.artemis.roadrunner.model3;
 
-import biz.artemis.util.UniqueID;
-import biz.artemis.confluence.xmlrpcwrapper.SpaceSummaryForXmlRpc;
 import biz.artemis.confluence.xmlrpcwrapper.ConfluenceServerSettings;
-import biz.artemis.confluence.xmlrpcwrapper.SpaceForXmlRpc;
-import biz.artemis.roadrunner.model3.Persistable;
+import biz.artemis.confluence.xmlrpcwrapper.SpaceSummaryForXmlRpc;
+import biz.artemis.util.UniqueID;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -117,6 +114,7 @@ public class ConfluenceServer extends Persistable {
         xmlRpcSettings.setLogin(this.getLogin());
         xmlRpcSettings.setPassword(this.getPassword());
         xmlRpcSettings.setUrl(this.getUrl());
+        xmlRpcSettings.setTrustallcerts("true");
 //        xmlRpcSettings.setLogin(this.getLogin());
         return xmlRpcSettings;
     }
