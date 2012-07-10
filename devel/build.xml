@@ -218,7 +218,8 @@
             <zipfileset src="${module.rr.basedir}/lib/commons-lang-2.4.jar"/>
             <zipfileset src="${module.rr.basedir}/lib/commons-httpclient-3.0.jar"/>
             <!--<zipfileset src="${module.rr.basedir}/lib/confluence-xmlrpc-wrapper-v4.07.jar"/>-->
-            <zipfileset src="${module.rr.basedir}/lib/confluence-xmlrpc-wrapper-v4.17.jar"/>
+            <!--<zipfileset src="${module.rr.basedir}/lib/confluence-xmlrpc-wrapper-v4.17.jar"/>-->
+            <zipfileset src="${module.rr.basedir}/lib/confluence-xmlrpc-wrapper-v5.0.0.jar"/>
 
             <zipfileset src="${module.rr.basedir}/lib/forms-1.2.1.jar"/>
             <zipfileset src="${module.rr.basedir}/lib/intellij_forms_rt.jar"/>

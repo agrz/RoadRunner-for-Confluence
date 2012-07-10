@@ -881,7 +881,7 @@ public class RoadRunnerGUI {
 
         //======== MainFrame ========
         {
-            MainFrame.setTitle("RoadRunner For Confluence v0.5.1");
+            MainFrame.setTitle("RoadRunner For Confluence v0.7.0");
             MainFrame.setIconImage(new ImageIcon("/Users/brendan/Desktop/projects/roadrunner/devel/FreeMindWindowIcon.png").getImage());
             Container MainFrameContentPane = MainFrame.getContentPane();
             MainFrameContentPane.setLayout(new BorderLayout());
