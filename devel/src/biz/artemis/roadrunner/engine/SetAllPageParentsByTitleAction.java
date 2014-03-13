@@ -5,6 +5,7 @@ import biz.artemis.roadrunner.model3.ContentEntityForSync;
 import biz.artemis.roadrunner.engine.syncactions.SyncAction;
 import biz.artemis.roadrunner.engine.syncactions.SyncActionResult;
 import biz.artemis.confluence.xmlrpcwrapper.RemoteWikiBroker;
+import biz.artemis.confluence.xmlrpcwrapper.RemoteWikiBroker.Position;
 import biz.artemis.confluence.xmlrpcwrapper.PageForXmlRpc;
 
 import javax.swing.tree.TreeModel;
@@ -12,6 +13,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.IOException;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 import org.apache.xmlrpc.XmlRpcException;
 
@@ -23,6 +25,9 @@ import org.apache.xmlrpc.XmlRpcException;
  * To change this template use File | Settings | File Templates.
  */
 public class SetAllPageParentsByTitleAction extends SyncAction {
+    
+	Logger log = Logger.getLogger("SetAllPageParentsByTitleAction");
+
     public ContentVersionListContainer pageCopyContentContainer;
     public TreeModel treeModel;
     public TreePath[] checkedPaths;
@@ -58,6 +63,10 @@ public class SetAllPageParentsByTitleAction extends SyncAction {
             // if no parent nodes then continue
             if (checkedPath.getPath().length == 1) continue;
             DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) checkedPath.getParentPath().getLastPathComponent();
+			if(parentNode.getUserObject() instanceof String)
+			{
+				log.debug("String Node: "+parentNode.getUserObject()+", parent="+parentNode);
+			}
             PageForXmlRpc localParentPage = (PageForXmlRpc) parentNode.getUserObject();
             String localParentName = localParentPage.getTitle();
 
@@ -65,7 +74,9 @@ public class SetAllPageParentsByTitleAction extends SyncAction {
             PageForXmlRpc remotePage = (PageForXmlRpc) serverPagesByTitle.get(localPageName);
             PageForXmlRpc remoteParent = (PageForXmlRpc) serverPagesById.get(remotePage.getParentId());
 
-            if (!remoteParent.getTitle().equalsIgnoreCase(localParentName)) {
+			log.debug("Remote Page:"+remotePage+", remoteParent="+remoteParent+", localParent:"+localParentPage);
+			
+            if (remoteParent==null || !remoteParent.getTitle().equalsIgnoreCase(localParentName)) {
                 // get local version of page with contents for sending
                 PageForXmlRpc localPageWithContent = localPagesToCopyMapById.get(localPage.getId());
 
@@ -74,19 +85,27 @@ public class SetAllPageParentsByTitleAction extends SyncAction {
 
                 localPageWithContent.setId(remotePage.getId());
                 PageForXmlRpc newRemoteParentPage = (PageForXmlRpc) serverPagesByTitle.get(localParentName);
+				log.debug("Setting Parent Remote Page:"+remotePage+", newParent="+newRemoteParentPage+", localParent:"+localParentPage);
                 // set the page's parent id to the remote parent id
                 localPageWithContent.setParentId(newRemoteParentPage.getId());
                 localPageWithContent.setContent(localPageWithContent.getContent()+"Y");
 
                 // send the page
-                rwb.storeNewOrUpdatePage(entity.getTargetServer(), entity.getTargetSpaceKey(), localPageWithContent);
+                PageForXmlRpc resultPage = rwb.storeNewOrUpdatePage(entity.getTargetServer(), entity.getTargetSpaceKey(), localPageWithContent);
+				
+				if (resultPage.getParentId() != newRemoteParentPage.getId())
+				{
+					log.debug("Result Page parent not set:"+resultPage+", newParent="+resultPage.getParentId());
+					rwb.movePage(entity.getTargetServer(), resultPage.getId(), newRemoteParentPage.getId(), Position.APPEND );
+				}
+				
             }
-            return SyncActionResult.getSuccessfulResult();
+            
 
         }
 
 
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return SyncActionResult.getSuccessfulResult();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public String getSpaceMessage() {
